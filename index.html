@@ -12,6 +12,26 @@
   <meta name="google-signin-client_id" content="558563436747-kf5935ob6vaf2mlikc7fg7aq2sdtvr2f.apps.googleusercontent.com">
   <script src="https://apis.google.com/js/platform.js" async defer></script>
   <script src="https://apis.google.com/js/api:client.js"></script>
+
+  <style>
+    .target {
+      box-shadow: 0 0 4px rgb(0 0 0 / 15%);
+      width: fit-content;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .target__image {
+      display: block;
+      border-radius: 50%;
+    }
+    
+    .target__name {
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -27,6 +47,16 @@
     <div class="row">
       <div class="col">
         <div class="g-signin2" data-onsuccess="onSignIn"></div>
+        <!-- Tarjeta de usuario -->
+        <div class="my-5 py-4 px-3 target d-none" id="user-target">
+          <figure class="m-0">
+            <img id ="user-image" class="target__image" src="">
+          </figure>
+          <div>
+            <p id="user-name" class="target__name"></p>
+            <p id="user-email" class="target__email m-0"></p>
+          </div>
+        </div>
       </div>
     </div>
   </main>
@@ -34,10 +64,13 @@
   <script>
     const $btnLogin = document.getElementById('btn-login')
     const $btnLogout = document.getElementById('btn-logout')
+    const $target = document.getElementById('user-target')
+    const $target_img = document.getElementById('user-image')
+    const $target_name = document.getElementById('user-name')
+    const $target_email = document.getElementById('user-email')
 
     // Obtener datos
     function onSignIn(googleUser) {
-      console.log("USUARIO LOGUEADO")
       $btnLogin.classList.add('d-none')
       $btnLogout.classList.remove('d-none')
 
@@ -52,6 +85,12 @@
       // The ID token you need to pass to your backend:
       let id_token = googleUser.getAuthResponse().id_token;
       console.log("ID Token: " + id_token);
+
+      // Pintar datos en el dom
+      $target_img.setAttribute('src', profile.getImageUrl())
+      $target_name.innerText = profile.getName()
+      $target_email.innerText = profile.getEmail()
+      $target.classList.remove('d-none')
     }
 
     // CERRAR SESION
@@ -59,6 +98,7 @@
       gapi.auth2.getAuthInstance().disconnect();
       $btnLogin.classList.remove('d-none')
       $btnLogout.classList.add('d-none')
+      $target.classList.add('d-none')
     }
     $btnLogout.addEventListener('click', logOut)
 
@@ -81,8 +121,8 @@
         function (googleUser) {
           onSignIn(googleUser)
         }, function (error) {
-          alert(JSON.stringify(error, undefined, 2));
-        });
+          alert(JSON.stringify(error, undefined, 2))
+        })
     }
 
     startApp()
