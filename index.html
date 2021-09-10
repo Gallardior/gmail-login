@@ -36,6 +36,10 @@
 
     // Obtener datos
     function onSignIn(googleUser) {
+      console.log("USUARIO LOGUEADO")
+      $btnLogin.classList.add('d-none')
+      $btnLogout.classList.remove('d-none')
+
       // Useful data for your client-side scripts:
       var profile = googleUser.getBasicProfile();
       console.log("ID: " + profile.getId()); // Don't send this directly to your server!
@@ -47,20 +51,6 @@
       // The ID token you need to pass to your backend:
       var id_token = googleUser.getAuthResponse().id_token;
       console.log("ID Token: " + id_token);
-    }
-
-    // Boton personalizado 
-    let startApp = function() {
-      gapi.load('auth2', function(){
-        // Retrieve the singleton for the GoogleAuth library and set up the client.
-        auth2 = gapi.auth2.init({
-          client_id: '558563436747-kf5935ob6vaf2mlikc7fg7aq2sdtvr2f.apps.googleusercontent.com',
-          cookiepolicy: 'single_host_origin',
-          // Request scopes in addition to 'profile' and 'email'
-          //scope: 'additional_scope'
-        })
-        attachSignin($btnLogin)
-      })
     }
   </script>
 </body>
