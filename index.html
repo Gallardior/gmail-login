@@ -59,6 +59,7 @@
       $btnLogin.classList.remove('d-none')
       $btnLogout.classList.add('d-none')
     }
+    $btnLogout.addEventListener('click', logOut)
 
     // BOTON PERSONALIZADO DE LOGIN
     var startApp = function () {
@@ -73,7 +74,17 @@
         attachSignin($btnLogin);
       });
     }; 
-    $btnLogout.addEventListener('click', logOut)
+
+    function attachSignin(element) {
+      console.log(element.id);
+      auth2.attachClickHandler(element, {},
+        function (googleUser) {
+          document.getElementById('name').innerText = "Signed in: " +
+            googleUser.getBasicProfile().getName();
+        }, function (error) {
+          alert(JSON.stringify(error, undefined, 2));
+        });
+    }
   </script>
 </body>
 </html>
