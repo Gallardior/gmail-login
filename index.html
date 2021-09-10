@@ -52,6 +52,13 @@
       var id_token = googleUser.getAuthResponse().id_token;
       console.log("ID Token: " + id_token);
     }
+
+    // BOTON DE CERRAR SESION
+    const logOut = () => {
+      gapi.auth2.getAuthInstance().disconnect();
+    }
+
+    $btnLogout.addEventListener('click', logOut)
   </script>
 </body>
 </html>
