@@ -56,6 +56,8 @@
     // BOTON DE CERRAR SESION
     const logOut = () => {
       gapi.auth2.getAuthInstance().disconnect();
+      $btnLogin.classList.remove('d-none')
+      $btnLogout.classList.add('d-none')
     }
 
     $btnLogout.addEventListener('click', logOut)
